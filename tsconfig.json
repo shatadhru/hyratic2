@@ -30,6 +30,6 @@
     "**/*.mts",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
-  ],
+, "components/logo.jsx", "lib/firebase.js"  ],
   "exclude": ["node_modules"]
 }
