@@ -14,7 +14,7 @@ import { NavGroup } from "@/components/nav-group";
 import { footerNavLinks, navGroups } from "@/components/app-shared";
 import { LatestChange } from "@/components/latest-change";
 import { PlusIcon, SearchIcon } from "lucide-react";
-import Logo from "@/components/logo";
+import {LogoMain} from "@/components/logo";
 
 export function AppSidebar() {
 	return (
@@ -22,7 +22,7 @@ export function AppSidebar() {
 			<SidebarHeader className="h-16 justify-center">
 				<SidebarMenuButton asChild className="min-w-8 h-16">
 					<a href="#link">
-						<Logo  />
+						<LogoMain iconClassName="h-36 w-36" />
 					</a>
 				</SidebarMenuButton>
 			</SidebarHeader>

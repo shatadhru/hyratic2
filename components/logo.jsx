@@ -71,10 +71,10 @@ export default function Logo({
           src="/hyratic.svg"
           alt="Logo Text"
           width={120}
-          height={40}
+          height={100}
           className={cn(
             "object-contain",
-            isDark && "opacity-90",
+            isDark && "opacity-90 mt-10",
             textClassName
           )}
           priority
@@ -83,3 +83,28 @@ export default function Logo({
     </div>
   );
 }
+
+
+
+export function LogoMain({ className = "", iconClassName = "" }) {
+  return (
+    <div
+      className={cn(
+        "flex items-center mt-1.5",
+        className
+      )}
+    >
+      <Image
+        src="/hyraticdark.png"
+        alt="Logo Icon"
+        width={120}
+        height={120}
+        className={cn(
+          "object-contain",
+          iconClassName
+        )}
+        priority
+      />
+    </div>
+  );
+} 

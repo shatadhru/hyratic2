@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import Logo from "@/components/logo";
+import {LogoMain} from "@/components/logo";
 import { useScroll } from "@/hooks/use-scroll";
 import { Button } from "@/components/ui/button";
 import { DesktopNav } from "@/components/desktop-nav";
@@ -90,7 +91,7 @@ export function Header() {
         {/* LEFT */}
         <div className="flex items-center gap-5">
           <Link href="/" className="px-3 py-2.5 hover:bg-muted rounded-md">
-            <Logo />
+            <LogoMain />
           </Link>
 
           <DesktopNav />

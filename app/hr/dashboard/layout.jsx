@@ -1,6 +1,5 @@
 "use client"
 import React from 'react'
-import { DashboardSkeleton } from "@/components/dashboard-skeleton";
 import { AppShell } from "@/components/app-shell";
 
 
