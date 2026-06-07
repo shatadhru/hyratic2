@@ -8,6 +8,9 @@ import { CustomSidebarTrigger } from "@/components/custom-sidebar-trigger";
 import { navLinks } from "@/components/app-shared";
 import { NavUser } from "@/components/nav-user";
 import { SendIcon, BellIcon } from "lucide-react";
+import { LogoMain } from "./logo";
+
+import AvatarDropdown from "./profileAvatar"
 
 const activeItem = navLinks.find((item) => item.isActive);
 
@@ -24,22 +27,10 @@ export function AppHeader() {
 					className="mr-2 h-4 data-[orientation=vertical]:self-center"
 					orientation="vertical"
 				/>
-				<AppBreadcrumbs page={activeItem} />
+				<LogoMain className="h-25 w-25" />
 			</div>
 			<div className="flex items-center gap-3">
-				<Button size="icon-sm" variant="outline">
-					<SendIcon
-					/>
-				</Button>
-				<Button aria-label="Notifications" size="icon-sm" variant="outline">
-					<BellIcon
-					/>
-				</Button>
-				<Separator
-					className="h-4 data-[orientation=vertical]:self-center"
-					orientation="vertical"
-				/>
-				<NavUser />
+				<AvatarDropdown />
 			</div>
 		</header>
 	);
