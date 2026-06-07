@@ -1,8 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import Logo from "@/components/logo";
-import {LogoMain} from "@/components/logo";
+import { LogoMain } from "@/components/logo";
 import { useScroll } from "@/hooks/use-scroll";
 import { Button } from "@/components/ui/button";
 import { DesktopNav } from "@/components/desktop-nav";
@@ -17,6 +16,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 
+import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 import {
@@ -25,11 +25,10 @@ import {
   Wallet,
   Settings,
   LogOut,
-  MessageCircle,
   Sun,
   Moon,
   Laptop,
-  Palette,
+  Search,
 } from "lucide-react";
 
 import { auth } from "@/lib/firebase";
@@ -48,13 +47,14 @@ export function Header() {
 
   const [user, setUser] = useState<FirebaseUser | null>(null);
   const [theme, setTheme] = useState<"light" | "dark" | "system">("system");
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => setUser(u));
     return () => unsub();
   }, []);
 
-  // theme apply
+  // THEME APPLY
   useEffect(() => {
     const root = window.document.documentElement;
 
@@ -64,11 +64,20 @@ export function Header() {
       const systemDark = window.matchMedia(
         "(prefers-color-scheme: dark)"
       ).matches;
+
       root.classList.add(systemDark ? "dark" : "light");
     } else {
       root.classList.add(theme);
     }
   }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => {
+      if (prev === "light") return "dark";
+      if (prev === "dark") return "system";
+      return "light";
+    });
+  };
 
   const logout = async () => {
     await signOut(auth);
@@ -76,6 +85,16 @@ export function Header() {
   };
 
   const initials = user?.email?.slice(0, 2).toUpperCase() || "HR";
+
+  const demoLinks = [
+    { name: "Dashboard", path: "/hr/dashboard" },
+    { name: "Profile", path: "/profile" },
+    { name: "Earnings", path: "/earnings" },
+    { name: "Settings", path: "/settings" },
+    { name: "Messages", path: "/messages" },
+  ].filter((item) =>
+    item.name.toLowerCase().includes(query.toLowerCase())
+  );
 
   return (
     <header
@@ -100,6 +119,45 @@ export function Header() {
         {/* RIGHT */}
         <div className="flex items-center gap-2">
 
+          {/* 🔍 SEARCH (DESKTOP + MOBILE) */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Search className="w-5 h-5" />
+              </Button>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent align="end" className="w-72 p-2">
+
+              <Input
+                placeholder="Search pages..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                className="mb-2"
+              />
+
+              <div className="text-xs text-muted-foreground px-2 py-1">
+                Quick Links
+              </div>
+
+              {demoLinks.length > 0 ? (
+                demoLinks.map((item) => (
+                  <DropdownMenuItem
+                    key={item.path}
+                    onClick={() => router.push(item.path)}
+                    className="cursor-pointer"
+                  >
+                    {item.name}
+                  </DropdownMenuItem>
+                ))
+              ) : (
+                <div className="text-xs text-muted-foreground px-2 py-2">
+                  No results found
+                </div>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           {/* AUTH BUTTONS */}
           {!user && (
             <div className="hidden md:flex items-center gap-2">
@@ -116,16 +174,23 @@ export function Header() {
           {user && (
             <div className="flex items-center gap-2">
 
-              {/* Messenger only */}
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => router.push("/messages")}
-              >
-                <MessageCircle className="w-5 h-5" />
-              </Button>
+              {/* 🌙 THEME (DESKTOP ONLY) */}
+              <div className="hidden md:block">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={toggleTheme}
+                  className="transition-all duration-300 hover:scale-110"
+                >
+                  {theme === "light" && <Sun className="w-5 h-5" />}
+                  {theme === "dark" && <Moon className="w-5 h-5" />}
+                  {theme === "system" && <Laptop className="w-5 h-5" />}
+                </Button>
+              </div>
 
-              {/* Avatar */}
+              {/* ❌ CHAT REMOVED ON MOBILE (also removed completely as requested earlier) */}
+
+              {/* AVATAR MENU */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Avatar className="h-8 w-8 cursor-pointer border border-orange-500/50">

@@ -19,18 +19,21 @@ import {
   MessageCircle,
   Bell,
   LayoutDashboard,
+  Sun,
+  Moon,
+  Laptop,
 } from "lucide-react";
 
 import { auth } from "@/lib/firebase";
 import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
 import { useRouter } from "next/navigation";
 
-const activeStyle =
-  "p-2 rounded-md transition-colors active:bg-[#FE5B00]/10 hover:text-[#FE5B00]";
-
 export function MobileNav() {
   const [open, setOpen] = React.useState(false);
   const [user, setUser] = React.useState<FirebaseUser | null>(null);
+  const [theme, setTheme] = React.useState<"light" | "dark" | "system">(
+    "system"
+  );
 
   const router = useRouter();
 
@@ -39,10 +42,38 @@ export function MobileNav() {
     return () => unsub();
   }, []);
 
+  // APPLY THEME
+  React.useEffect(() => {
+    const root = window.document.documentElement;
+
+    root.classList.remove("light", "dark");
+
+    if (theme === "system") {
+      const systemDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+
+      root.classList.add(systemDark ? "dark" : "light");
+    } else {
+      root.classList.add(theme);
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => {
+      if (prev === "light") return "dark";
+      if (prev === "dark") return "system";
+      return "light";
+    });
+  };
+
+  const activeStyle =
+    "p-2 rounded-md transition-colors active:bg-[#FE5B00]/10 hover:text-[#FE5B00]";
+
   return (
     <div className="md:hidden">
 
-      {/* TOGGLE */}
+      {/* TOGGLE BUTTON */}
       <Button
         className="relative"
         onClick={() => setOpen(!open)}
@@ -63,14 +94,42 @@ export function MobileNav() {
         <Portal className="top-14">
           <PortalBackdrop />
 
-          <div
-            className="size-full overflow-y-auto p-4 space-y-6"
-            data-slot="open"
-          >
+          <div className="size-full overflow-y-auto p-4 space-y-6">
 
-            {/* =========================
-                🔐 AUTH (ONLY IF NOT LOGGED IN)
-            ========================= */}
+            {/* ================= THEME SWITCH ================= */}
+            <div className="flex items-center justify-between border rounded-lg p-2">
+              <span className="text-sm font-medium text-muted-foreground">
+                Theme
+              </span>
+
+              <div className="flex gap-1">
+                <Button
+                  size="icon"
+                  variant={theme === "light" ? "default" : "ghost"}
+                  onClick={() => setTheme("light")}
+                >
+                  <Sun className="w-4 h-4" />
+                </Button>
+
+                <Button
+                  size="icon"
+                  variant={theme === "dark" ? "default" : "ghost"}
+                  onClick={() => setTheme("dark")}
+                >
+                  <Moon className="w-4 h-4" />
+                </Button>
+
+                <Button
+                  size="icon"
+                  variant={theme === "system" ? "default" : "ghost"}
+                  onClick={() => setTheme("system")}
+                >
+                  <Laptop className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* ================= AUTH ================= */}
             {!user && (
               <div className="flex flex-col gap-2">
                 <Button
@@ -90,9 +149,7 @@ export function MobileNav() {
               </div>
             )}
 
-            {/* =========================
-                ⚡ QUICK ACTIONS (ONLY IF LOGGED IN)
-            ========================= */}
+            {/* ================= QUICK ACTIONS ================= */}
             {user && (
               <div className="grid grid-cols-2 gap-2">
 
@@ -125,9 +182,7 @@ export function MobileNav() {
               </div>
             )}
 
-            {/* =========================
-                PRODUCT
-            ========================= */}
+            {/* ================= PRODUCT ================= */}
             <div>
               <span className="text-sm font-medium text-muted-foreground">
                 Product
@@ -144,9 +199,7 @@ export function MobileNav() {
               </div>
             </div>
 
-            {/* =========================
-                FREELANCE
-            ========================= */}
+            {/* ================= FREELANCE ================= */}
             <div>
               <span className="text-sm font-medium text-muted-foreground">
                 Freelance
@@ -163,9 +216,7 @@ export function MobileNav() {
               </div>
             </div>
 
-            {/* =========================
-                COMPANY
-            ========================= */}
+            {/* ================= COMPANY ================= */}
             <div>
               <span className="text-sm font-medium text-muted-foreground">
                 Company
@@ -173,7 +224,11 @@ export function MobileNav() {
 
               <div className="mt-2 flex flex-col gap-2">
                 {companyLinks.map((link) => (
-                  <LinkItem key={link.label} {...link} className={activeStyle} />
+                  <LinkItem
+                    key={link.label}
+                    {...link}
+                    className={activeStyle}
+                  />
                 ))}
 
                 {companyLinks2.map((link) => (
