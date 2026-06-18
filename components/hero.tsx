@@ -27,6 +27,7 @@ import {
 
 import MuxPlayer from '@mux/mux-player-react';
 
+import { useRouter } from "next/navigation";
 
 const popularTags = [
   {
@@ -47,45 +48,88 @@ const popularTags = [
 
 ];
 
-
-
-
 export function Client() {
+
+  const router = useRouter();
+
+  const [search, setSearch] = useState("");
+
+
+  const handleSearch = () => {
+
+    if (!search.trim()) return;
+
+
+    router.push(`/services?search=${encodeURIComponent(search)}`);
+
+  };
+
+
   return (
-    <Field className="w-full ">
-      <InputGroup className="h-11 ">
+    <Field className="w-full z-10">
+
+      <InputGroup className="h-11">
+
+
         <InputGroupAddon align="inline-start">
+
           <SearchIcon
             className="text-muted-foreground"
             size={19}
           />
+
         </InputGroupAddon>
 
+
+
         <InputGroupInput
+
           id="search"
+
+          value={search}
+
+          onChange={(e)=>setSearch(e.target.value)}
+
+          onKeyDown={(e)=>{
+
+            if(e.key === "Enter"){
+              handleSearch();
+            }
+
+          }}
+
           placeholder="Search skills, services..."
+
         />
 
+
+
         <InputGroupAddon align="inline-end">
+
           <Button
-            className="cursor-pointer "
             size="sm"
+            onClick={handleSearch}
           >
-            <SearchIcon size={16} />
+
+            <SearchIcon size={16}/>
 
             <span className="hidden md:inline">
               SEARCH
             </span>
+
           </Button>
+
         </InputGroupAddon>
 
+
       </InputGroup>
+
     </Field>
   );
 }
 
-
 import { Sparkles } from "lucide-react";
+import { useState } from "react";
 
 
 export function PopularSkills() {
@@ -96,7 +140,7 @@ export function PopularSkills() {
         <Badge
           key={item.name}
           variant="secondary"
-          className="cursor-pointer rounded-full px-3 py-1 border-0"
+          className=" rounded-full px-3 py-1 border-0"
         >
 
           {item.popular && (

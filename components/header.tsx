@@ -97,14 +97,12 @@ export function Header() {
   );
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 w-full border-b border-border transition-all duration-300",
-        {
-          "bg-background/80 backdrop-blur-md shadow-sm": scrolled,
-        }
-      )}
-    >
+   <header
+  className={cn(
+    "sticky top-0 z-50 w-full border-b border-border transition-all duration-300",
+    "bg-white dark:bg-black"
+  )}
+>
       <nav className=" flex h-14 px-2 md:px-4 w-full items-center justify-between ">
 
         {/* LEFT */}

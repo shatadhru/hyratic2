@@ -140,7 +140,7 @@
 
   
   "lib/firebase.js"
-
+, "components/mobile-nav.jsx"
   ],
 
   "exclude": [

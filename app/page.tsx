@@ -1,59 +1,24 @@
 import { Header } from "@/components/header";
 import React from "react";
-import Header2 from "@/components/header2";
 import { Footer } from "@/components/footer";
-import { FeatureSection } from "@/components/feature-section";
-import { CallToAction } from "@/components/cta";
 import { HeroSection } from "@/components/hero";
 import { cn } from "@/lib/utils";
-import TopCategories from "@/components/top-categories/page"
 
+import TopCategories from "@/components/top-categories/page";
+import HowItWorks from "@/components/how-its-works/page";
+import HyraticFAQ from "@/components/faq/page";
 
 
 
 function Section01(){
+
   return(
     <div className="w-full flex flex-col justify-center px-4 mt-14">
 
-      </div>
+    </div>
   )
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -61,39 +26,115 @@ function Section01(){
 
 
 function Page() {
+
+
   return (
-    <div className="relative flex min-h-screen flex-col overflow-hidden px-4 supports-[overflow:clip]:overflow-clip">
-      
+
+    <div
+      className="
+      relative
+      z-0
+      flex
+      min-h-screen
+      flex-col
+      overflow-hidden
+      px-4
+      supports-[overflow:clip]:overflow-clip
+      "
+    >
+
+
       <main
+
         className={cn(
-          "relative mx-auto w-full max-w-8xl grow",
-          "before:absolute before:-inset-y-14 before:-left-px before:w-px before:bg-border",
-          "after:absolute after:-inset-y-14 after:-right-px after:w-px after:bg-border "
+
+          "relative z-10 mx-auto w-full max-w-8xl grow",
+
+          "before:absolute before:pointer-events-none before:-inset-y-14 before:-left-px before:w-px before:bg-border",
+
+          "after:absolute after:pointer-events-none after:-inset-y-14 after:-right-px after:w-px after:bg-border"
+
         )}
+
       >
-        {/* Top Header */}
+
+
+
+        {/* Header */}
+
         <Header />
 
-       
 
-        {/* Hero Section */}
-        <section >
+
+
+
+        {/* Hero */}
+
+        <section className="relative z-10">
+
           <HeroSection />
+
         </section>
 
 
 
-        <section>
+
+
+        {/* Categories */}
+
+        <section className="relative z-10">
+
           <TopCategories />
+
         </section>
+
+
+
+
+
+        {/* How It Works */}
+
+        <section className="relative z-10">
+
+          <HowItWorks />
+
+        </section>
+
+
+
+
+
+        {/* FAQ */}
+
+        <section className="relative z-10">
+
+          <HyraticFAQ />
+
+        </section>
+
+
+
+
 
         {/* Footer */}
-        <footer className="w-full mt-20">
+
+        <footer className="relative z-10 w-full mt-20">
+
           <Footer />
+
         </footer>
+
+
+
       </main>
+
+
+
     </div>
+
   );
+
 }
+
 
 export default Page;
