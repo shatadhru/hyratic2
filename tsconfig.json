@@ -1,35 +1,152 @@
 {
+
   "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "react-jsx",
-    "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "paths": {
-      "@/*": ["./*"]
-    }
+
+  
+  "target": "ES2017",
+
+  
+  "lib": [
+
+  
+  
+  "dom",
+
+  
+  
+  "dom.iterable",
+
+  
+  
+  "esnext"
+
+  
+  ],
+
+  
+  "allowJs": true,
+
+  
+  "skipLibCheck": true,
+
+  
+  "strict": true,
+
+  
+  "noEmit": true,
+
+  
+  "esModuleInterop": true,
+
+  
+  "module": "esnext",
+
+  
+  "moduleResolution": "bundler",
+
+  
+  "resolveJsonModule": true,
+
+  
+  "isolatedModules": true,
+
+  
+  "jsx": "react-jsx",
+
+  
+  "incremental": true,
+
+  
+  "plugins": [
+
+  
+  
+  {
+
+  
+  
+  
+  "name": "next"
+
+  
+  
+  }
+
+  
+  ],
+
+  
+  "paths": {
+
+  
+  
+  "@/*": [
+
+  
+  
+  
+  "./*"
+
+  
+  
+  ],
+
+  
+  
+  "@videos/*": [
+
+  
+  
+  
+  "./videos/*"
+
+  
+  
+  ]
+
+  
+  }
+
   },
+
   "include": [
-    "next-env.d.ts",
-    "next.config.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.mts",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts"
-, "components/logo.jsx", "lib/firebase.js"  ],
-  "exclude": ["node_modules"]
+
+  
+  "video.d.ts",
+
+  
+  "next-env.d.ts",
+
+  
+  "next.config.ts",
+
+  
+  "**/*.ts",
+
+  
+  "**/*.tsx",
+
+  
+  "**/*.mts",
+
+  
+  ".next/types/**/*.ts",
+
+  
+  ".next/dev/types/**/*.ts",
+
+  
+  "components/logo.jsx",
+
+  
+  "lib/firebase.js"
+
+  ],
+
+  "exclude": [
+
+  
+  "node_modules"
+
+  ]
 }

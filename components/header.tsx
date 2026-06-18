@@ -105,7 +105,7 @@ export function Header() {
         }
       )}
     >
-      <nav className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between px-4">
+      <nav className=" flex h-14 px-2 md:px-4 w-full items-center justify-between ">
 
         {/* LEFT */}
         <div className="flex items-center gap-5">

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter, Space_Grotesk } from "next/font/google";
+import { Inter, Space_Grotesk, Geist_Mono, Figtree } from "next/font/google";
 
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -9,69 +9,29 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 /* =========================
    🎨 FONTS
 ========================= */
-const spaceGroteskHeading = Space_Grotesk({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-heading",
+  weight: ["400", "500", "600", "700"],
 });
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
+const figtree = Figtree({subsets:['latin'],variable:'--font-sans'});
 
-const fontMono = Geist_Mono({
+const mono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
 });
 
 /* =========================
-   🚀 SEO METADATA (FULL)
+   🚀 METADATA
 ========================= */
 export const metadata: Metadata = {
   title: {
-    default: "Hyratic - Freelance Marketplace, Studio & SkillHub",
+    default: "Hyratic - Freelance Marketplace",
     template: "%s | Hyratic",
   },
-
-
   description:
-    "Hyratic is a modern freelance marketplace like Fiverr & Upwork. Hire top freelancers, manage projects with Hyratic Studio, and upgrade skills with SkillHub.",
-
-  keywords: [
-    "freelance marketplace",
-    "hire freelancers",
-    "Fiverr alternative",
-    "Upwork alternative",
-    "web developers",
-    "UI UX designers",
-    "freelance jobs",
-    "remote work",
-    "Hyratic Studio",
-    "SkillHub",
-  ],
-
-  authors: [{ name: "Hyratic Team" }],
-  creator: "Hyratic",
-
-  metadataBase: new URL("https://hyratic.com"),
-
-  openGraph: {
-    title: "Hyratic - Freelance Marketplace",
-    description:
-      "Hire freelancers, manage projects & learn skills in one platform.",
-    url: "https://hyratic.com",
-    siteName: "Hyratic",
-    type: "website",
-  },
-
-  twitter: {
-    card: "summary_large_image",
-    title: "Hyratic - Freelance Marketplace",
-    description:
-      "Hire freelancers, manage projects & learn skills in one platform.",
-  },
-
-  
+    "Hire freelancers, manage projects & learn skills in one platform.",
 };
 
 /* =========================
@@ -79,23 +39,22 @@ export const metadata: Metadata = {
 ========================= */
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html
       lang="en"
       suppressHydrationWarning
       className={cn(
-        "antialiased",
-        fontMono.variable,
-        inter.variable,
-        spaceGroteskHeading.variable
-      )}
+              spaceGrotesk.variable,
+              mono.variable
+            , "font-sans", figtree.variable)}
     >
-      <body className="font-sans bg-background text-foreground">
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <ThemeProvider><TooltipProvider>{children}</TooltipProvider> </ThemeProvider>
+      <body className="font-sans font-heading bg-background text-foreground antialiased">
+        <ThemeProvider>
+          <TooltipProvider>{children}</TooltipProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

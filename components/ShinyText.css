@@ -1,0 +1,21 @@
+.shiny-text {
+  display: inline-block;
+  font-size: 4rem;
+  font-weight: 600;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .shiny-text {
+    font-size: 2.4rem;
+    font-weight: 600;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .shiny-text {
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+}

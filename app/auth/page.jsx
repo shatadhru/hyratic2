@@ -45,24 +45,24 @@ import {
 
 import { auth } from "@/lib/firebase";
 
+// 🔥 FIRESTORE IMPORT ADDED
+import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+
 function Page() {
 
-    const router = useRouter();
+  const router = useRouter();
 
-    useEffect(() => {
-  const unsubscribe = auth.onAuthStateChanged((user) => {
-    if (user) {
-      router.push("/hr/dashboard");
-    }
-  });
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        router.push("/hr/dashboard");
+      }
+    });
 
-  return () => unsubscribe();
-}, [router]);
+    return () => unsubscribe();
+  }, [router]);
 
-
-  
-
-  // separate loading states
   const [loginLoading, setLoginLoading] = useState(false);
   const [signupLoading, setSignupLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
@@ -80,6 +80,40 @@ function Page() {
 
   const provider = new GoogleAuthProvider();
 
+  // 🔥 CREATE USER IN FIRESTORE (SKILL HUB CORE LOGIC)
+  const createUserIfNotExists = async (user) => {
+    if (!user) return;
+
+    const userRef = doc(db, "users", user.uid);
+    const snap = await getDoc(userRef);
+
+    if (!snap.exists()) {
+      await setDoc(userRef, {
+        name: user.displayName || signupData.name || "New User",
+        email: user.email,
+        photoURL: user.photoURL || "",
+
+        role: "buyer",
+        isSeller: false,
+
+        skillsCount: 0,
+        rating: 0,
+        level: "new",
+
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
+    } else {
+      await setDoc(
+        userRef,
+        {
+          updatedAt: serverTimestamp(),
+        },
+        { merge: true }
+      );
+    }
+  };
+
   // SIGN UP
   const signUp = async () => {
     try {
@@ -94,6 +128,9 @@ function Page() {
       await updateProfile(userCred.user, {
         displayName: signupData.name,
       });
+
+      // 🔥 FIRESTORE USER CREATE
+      await createUserIfNotExists(userCred.user);
 
       router.push("/hr/dashboard");
     } catch (err) {
@@ -114,6 +151,9 @@ function Page() {
         loginData.password
       );
 
+      // 🔥 ENSURE USER EXISTS
+      await createUserIfNotExists(userCred.user);
+
       router.push("/hr/dashboard");
     } catch (err) {
       console.error(err.message);
@@ -127,7 +167,10 @@ function Page() {
     try {
       setGoogleLoading(true);
 
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+
+      // 🔥 FIRESTORE USER CREATE
+      await createUserIfNotExists(result.user);
 
       router.push("/hr/dashboard");
     } catch (err) {
@@ -137,9 +180,6 @@ function Page() {
     }
   };
 
-
-
-
   return (
     <div className="w-full h-screen flex bg-muted/30">
 
@@ -148,7 +188,6 @@ function Page() {
 
         <Card className="w-full max-w-md shadow-xl">
 
-          {/* HEADER */}
           <CardHeader className="space-y-2 text-center">
             <Logo className="w-20 mx-auto" iconClassName="w-6" />
 
@@ -163,7 +202,6 @@ function Page() {
 
           <CardContent>
 
-            {/* TABS */}
             <Tabs defaultValue="login" className="w-full">
 
               <TabsList className="grid grid-cols-2 w-full mb-5">
@@ -215,14 +253,6 @@ function Page() {
                   {loginLoading ? "Signing in..." : "Login"}
                 </Button>
 
-                <div className="flex justify-between text-[11px] text-muted-foreground">
-                  <a href="/forgot-password" className="hover:underline">
-                    Forgot Password?
-                  </a>
-                  <a href="/support" className="hover:underline">
-                   Need Help
-                  </a>
-                </div>
               </TabsContent>
 
               {/* SIGNUP */}
@@ -274,21 +304,16 @@ function Page() {
                   {signupLoading ? "Creating..." : "Create account"}
                 </Button>
 
-                <p className="text-[11px] text-center text-muted-foreground">
-                  By continuing you agree to Terms & Privacy
-                </p>
               </TabsContent>
 
             </Tabs>
 
-            {/* DIVIDER */}
             <div className="my-5 flex items-center gap-4">
               <div className="h-px flex-1 bg-border" />
               <span className="text-[11px] text-muted-foreground">or</span>
               <div className="h-px flex-1 bg-border" />
             </div>
 
-            {/* GOOGLE */}
             <Button
               variant="outline"
               className="w-full"

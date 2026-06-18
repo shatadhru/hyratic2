@@ -13,5 +13,8 @@
         "supportEmail": "support@hyratic.com"
       }
     }
+  },
+  "storage": {
+    "rules": "storage.rules"
   }
 }

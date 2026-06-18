@@ -8,8 +8,8 @@
    LIGHT THEME
 ========================= */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+
+
 
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -89,7 +89,7 @@
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
 
-  --border: oklch(1 0 0 / 10%);
+  --border: oklch(100% 0.00011 271.152 / 0.1);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
 
@@ -137,6 +137,10 @@
   --color-ring: var(--ring);
 
   --radius-lg: var(--radius);
+
+  --font-heading: var(--font-heading);
+
+  --font-sans: var(--font-sans);
 }
 
 /* =========================
@@ -159,4 +163,52 @@
   [role="button"]:not(:disabled) {
     cursor: pointer;
   }
+}
+
+.font-space {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 400 !important;
+  font-style: normal;
+
+}
+/* Hero heading — matches TrueFocus .focus-word at every breakpoint */
+.hero-heading {
+  font-size: 2rem;        /* 32px mobile */
+  line-height: 1.1;
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .hero-heading {
+    font-size: 3.5rem;    /* 56px tablet */
+  }
+}
+
+@media (min-width: 1025px) {
+  .hero-heading {
+    font-size: 5rem;      /* 80px desktop */
+  }
+}
+
+/* TrueFocus word — synced with hero-heading */
+.focus-word {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 2rem !important;
+  line-height: 1.1;
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .focus-word {
+    font-size: 3.5rem !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  .focus-word {
+    font-size: 5rem !important;
+  }
+}
+
+.mux-player {
+  --controls: none;
 }
